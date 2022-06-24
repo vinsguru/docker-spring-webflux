@@ -1,0 +1,6 @@
+version: "3.0"
+services:
+  web-app:
+    image: nginx:${TAG:-latest}
+    ports:
+    - "80:80"

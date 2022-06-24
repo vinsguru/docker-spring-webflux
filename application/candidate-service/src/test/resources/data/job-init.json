@@ -1,0 +1,62 @@
+[
+    {
+        "httpRequest": {
+            "path": "/health"
+        },
+        "httpResponse": {
+            "statusCode": 200,
+            "body": "Up"
+        }
+    },
+    {
+        "httpRequest": {
+            "path": "/job/search",
+            "queryStringParameters": {
+                "skills": [ "java", "spring" ]
+            }
+        },
+        "httpResponse": {
+            "statusCode": 200,
+            "body": [
+                {
+                    "id" : "mock-id-1",
+                    "description": "mocked-job-desc-1",
+                    "company": "mock",
+                    "skills": [ "skill-1", "skill-2" ],
+                    "salary": 10000,
+                    "isRemote": false
+                },
+                {
+                    "id" : "mock-id-2",
+                    "description": "mocked-job-desc-2",
+                    "company": "mock",
+                    "skills": [ "skill-3", "skill-4" ],
+                    "salary": 50000,
+                    "isRemote": true
+                }
+            ]
+        }
+    },
+    {
+        "httpRequest": {
+            "path": "/job/search",
+            "queryStringParameters": {
+                "skills": [ "docker" ]
+            }
+        },
+        "httpResponse": {
+            "statusCode": 404
+        }
+    },
+    {
+        "httpRequest": {
+            "path": "/job/search",
+            "queryStringParameters": {
+                "skills": [ "jira" ]
+            }
+        },
+        "httpResponse": {
+            "statusCode": 500
+        }
+    }
+]

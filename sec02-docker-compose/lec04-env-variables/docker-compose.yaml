@@ -1,0 +1,11 @@
+version: "3.0"
+services:
+  ubuntu:
+    image: ubuntu
+    command: "env"
+    env_file:
+    - app.env
+    environment:
+    - app.name=product-service
+    - service.url=google.com
+    - input=56

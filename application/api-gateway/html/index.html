@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous" />
+        <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
+
+        <title>Dice!</title>
+    </head>
+    <body>
+        <div class="container mt-5">
+            <h1>Dice!</h1>
+
+            <nav class="nav nav-pills nav-tabs nav-fill mt-5">
+                <a id="job-nav" class="nav-item nav-link" data-toggle="collapse" data-target=".multi-collapse" aria-expanded="false" aria-controls="job-collapse candidate-collapse" href="#">Jobs</a>
+                <a id="candidate-nav" class="nav-item nav-link active"  data-toggle="collapse" data-target=".multi-collapse" aria-expanded="false" aria-controls="job-collapse candidate-collapse" href="#">Candidates</a>
+            </nav>
+
+            <!-- Jobs -->
+            <div class="collapse multi-collapse show" id="job-collapse">
+                <div class="card mt-3">
+                    <div class="card-body">
+                        <h1 class="display-4">Available Jobs</h1>
+                        <table class="table table-striped mt-2">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Description</th>
+                                    <th scope="col">Company</th>
+                                    <th scope="col">Salary</th>
+                                    <th scope="col">Remote</th>
+                                    <th scope="col">Skills</th>
+                                    <th scope="col">Hostname</th>
+                                </tr>
+                            </thead>
+                            <tbody id="job-list">
+                                <!-- <tr>
+                                <th scope="row">1</th>
+                                <td>cell</td>
+                            </tr> -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>                    
+            </div>
+
+            <!-- Candidates -->
+            <div class="collapse multi-collapse" id="candidate-collapse">
+                <div class="card mt-3">
+                    <div class="card-body">
+                        <h1 class="display-4">Available Candidates</h1>
+                        <table class="table table-striped mt-2">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Skills</th>
+                                    <th scope="col">Hostname</th>
+                                </tr>
+                            </thead>
+                            <tbody id="candidate-list">
+                                <!-- <tr>
+                                <th scope="row">1</th>
+                                <td>cell</td>
+                                </tr> -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>   
+            </div>
+                
+        </div>
+
+        <script>
+          
+          const jobNav = document.getElementById('job-nav');
+          const jobTable = document.getElementById('job-list');
+          const candidateNav = document.getElementById('candidate-nav');
+          const candidateTable = document.getElementById('candidate-list');
+
+          jobNav.addEventListener('click', () => fetchJobs());
+          candidateNav.addEventListener('click', () => fetchCandidates());
+
+          const fetchJobs = async () => {
+            const uri = `/api/job/all`;
+            const response = await fetch(uri);
+            const jobs = await response.json();
+            activateElement(jobNav);
+            jobTable.replaceChildren();
+            jobs.forEach((job, index) => addJobToTable(job, index + 1));
+          }; 
+
+          const addJobToTable = (job, index) => {
+            const template = `
+                <th scope="row">${index}</th>
+                <td class="text-capitalize">${job.description}</td>
+                <td class="text-capitalize">${job.company}</td>
+                <td>${job.salary}</td>
+                <td>${job.isRemote ? "Yes" : "No"}</td>
+                <td class="text-capitalize">${job.skills}</td>
+                <td>${job.hostName}</td>
+            `;
+            const row = document.createElement('tr');
+            row.innerHTML = template;
+            jobTable.appendChild(row);
+          };
+
+          const fetchCandidates = async () => {
+            const uri = `/api/candidate/all`;
+            const response = await fetch(uri);
+            const candidates = await response.json();
+            activateElement(candidateNav);
+            candidateTable.replaceChildren();
+            candidates.forEach((candidate, index) => addCandidateToTable(candidate, index + 1));
+          }; 
+
+          const addCandidateToTable = (candidate, index) => {
+            const template = `
+                <th scope="row">${index}</th>
+                <td class="text-capitalize">${candidate.name}</td>
+                <td class="text-capitalize">${candidate.skills}</td>
+                <td>${candidate.hostName}</td>
+            `;
+            const row = document.createElement('tr');
+            row.innerHTML = template;
+            candidateTable.appendChild(row);
+          };
+
+          const activateElement = (ele) => {
+            document.querySelector("nav > a.active").classList.remove("active", "disabled");
+            ele.classList.add("active", "disabled");
+          }
+
+          window.addEventListener('load', () => fetchJobs());
+
+
+        </script>
+    </body>
+</html>

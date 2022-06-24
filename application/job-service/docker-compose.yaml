@@ -1,0 +1,19 @@
+version: "3.0"
+services:
+  mongo:
+    image: mongo
+    ports:
+      - "${HOST_PORT:-27017}:27017"
+    volumes:
+      - ./src/test/resources/data:/docker-entrypoint-initdb.d
+  job-service:
+    build: .
+    image: job-service
+    depends_on:
+      - mongo
+    ports:
+      - "8080:8080"
+    profiles:
+      - app
+    environment:
+      spring.data.mongodb.uri: "mongodb://job_user:job_password@mongo:27017/job"

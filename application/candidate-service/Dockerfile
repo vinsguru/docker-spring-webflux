@@ -1,4 +1,4 @@
-FROM bellsoft/liberica-openjdk-alpine:17.0.3
+FROM bellsoft/liberica-openjdk-alpine:21
 
 WORKDIR /usr/share/app
 

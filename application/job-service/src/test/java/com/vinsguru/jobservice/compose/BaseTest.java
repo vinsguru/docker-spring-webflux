@@ -17,7 +17,7 @@ public abstract class BaseTest {
     private static final String MONGO_URI_FORMAT = "mongodb://job_user:job_password@%s:%s/job";
 
     @ClassRule
-    private static final DockerComposeContainer<?> compose = new DockerComposeContainer<>(new File("docker-compose.yaml"));
+    public static final DockerComposeContainer<?> compose = new DockerComposeContainer<>(new File("docker-compose.yaml"));
 
     @DynamicPropertySource
     static void mongoProperties(DynamicPropertyRegistry registry){

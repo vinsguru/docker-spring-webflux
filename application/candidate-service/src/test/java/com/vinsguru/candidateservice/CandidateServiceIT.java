@@ -10,7 +10,7 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 import java.util.Set;
 
 @SpringBootTest
-@AutoConfigureWebTestClient
+@AutoConfigureWebTestClient(timeout = "10000")
 class CandidateServiceIT extends BaseTest {
 
 	@Autowired
